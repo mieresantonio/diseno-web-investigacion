@@ -53,3 +53,12 @@ SIEMPRE con `VITE_BACKEND_URL=https://BC123.pythonanywhere.com` y
 verificar el bundle POR SU CONTENIDO (cadenas decisivas dentro,
 conteo de la URL del backend) contra el último bundle conocido-bueno
 antes de subirlo. Nunca por nombre ni por fecha.
+
+## 2026-11-02 — Los criterios CenteIA en la práctica: Ciclos 2 y 4
+Se documenta en `aplicacion-criterios-centeia.md` cómo se aplicaron
+los criterios en la práctica: en el Ciclo 2, segundo-yo bajó los
+síntomas de diseño genérico de 1 a 0 y las tres apps ganaron
+tipografía propia; en el Ciclo 4, cada app web3 ganó un gesto de
+cabecera propio (dao-vote no, por identidad suficiente), solo en
+presentación. Verificación por código, bundles y checklist, sin
+captura: la mirada visual de Antonio queda pendiente.

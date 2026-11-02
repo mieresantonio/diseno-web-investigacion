@@ -34,6 +34,10 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
   la guía de diseño de CenteIA: diagnóstico de lo genérico, brief
   mínimo, trabajo por secciones, verificación y pasada final, con
   checklist de salida.
+- `aplicacion-criterios-centeia.md` — Los criterios en la práctica:
+  cómo se aplicaron en los rediseños de los Ciclos 2 y 4, con el
+  mapeo intervención → criterio y el límite de verificación
+  declarado (por código, bundles y checklist, sin captura).
 - `log.md` — Bitácora viva de casos de estudio.
 
 ## Origen
