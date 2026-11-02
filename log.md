@@ -26,3 +26,10 @@ y el estado vacío diseñado. Sistema violeta + ámbar claro.
 Backend Flask + SQLite con los mismos 3 dominios que los frontends;
 su lección es de proceso, no de pantalla: verificar termina matando el
 servidor y comprobando el puerto libre.
+
+## 2026-11-01 — Criterios de diseño desde la guía CenteIA
+Se vuelca en `criterios-diseno-centeia.md` el criterio destilado de
+la guía de diseño evaluada en octubre (no su instalación): diagnóstico
+de lo genérico, brief de 6 puntos, trabajo por secciones con
+comparación, verificación en móvil y con capturas, y pasada final
+crítica → auditoría → pulido con checklist de salida.

@@ -30,6 +30,10 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
 - `lecciones.md` — Lo que falló o decepcionó y qué enseñó.
 - `investigacion-kimi-k3.md` — Qué se sabe de cómo diseña Kimi K3 y qué
   toma Dirsi de eso (un método, no un mecanismo).
+- `criterios-diseno-centeia.md` — Criterios aplicables destilados de
+  la guía de diseño de CenteIA: diagnóstico de lo genérico, brief
+  mínimo, trabajo por secciones, verificación y pasada final, con
+  checklist de salida.
 - `log.md` — Bitácora viva de casos de estudio.
 
 ## Origen
