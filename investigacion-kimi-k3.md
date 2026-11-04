@@ -55,3 +55,45 @@ No toma:
   parentesco.
 - No promete que un estudiante pequeño herede el talento completo:
   hereda estilo y formato, no razonamiento largo ni contexto de 1M.
+
+## Actualización K3.1 Pro (4 nov 2026): la mejora no estaba en el esqueleto
+
+Auditoría por ciclos del repo oficial `moonshotai/Kimi-K3.1-Pro`, con
+el mismo método de la de K3 (índice + encabezados por rangos +
+muestreo + código; ~142 MB leídos de 1,56 TB; 96/96 shards
+reconciliados al byte, 0 errores). Informe completo en la auditoría
+local de Dirsi (`auditoria-kimi-k3/k31/ANATOMIA-K31.md`).
+
+- **Estructuralmente, K3.1 = K3 + 120 tensores.** Son los del
+  «indexer» de su atención dispersa (Gated DSA): una cabecera ligera
+  que elige los 2.048 tokens más relevantes y la atención principal
+  solo mira esos, en las mismas 24 capas donde K3 hacía atención
+  completa. Todo lo demás — expertos, embeddings, torre de visión,
+  formatos — es byte a byte idéntico en tamaño a K3.
+- **El muestreo cierra la historia:** los pesos compartidos tienen
+  valores distintos de los de K3, con distribuciones casi iguales.
+  La ganancia de capacidad de K3.1 no viene de arquitectura nueva:
+  viene del post-entrenamiento sobre el mismo esqueleto.
+- **Licencia de los pesos leída:** no restringe entrenar con salidas
+  (puerta solo para negocio «modelo como servicio» >US$20M/año). Los
+  términos de la API directa de Moonshot, en cambio, quedaron
+  clasificados como zona de riesgo para destilar: el canal importa
+  tanto como la licencia, como ya advertía la nota de Databricks.
+
+Qué toma Dirsi de esto, para diseño y rediseño:
+
+- **La confirmación del bucle, ahora con el caso del competidor.**
+  Ni siquiera Moonshot mejoró rediseñando el esqueleto: mejoró
+  iterando sobre lo que ya tenía, con retroalimentación medible.
+  Para Dirsi el equivalente sigue siendo generar → renderizar →
+  mirar → corregir, con criterios escritos y verificación por
+  captura. La mejora vive en el bucle, no en un salto de motor.
+- **Selección antes que exhaustividad (la lección del indexer).**
+  El DSA no mira todo el contexto: elige lo relevante con un
+  mecanismo barato y dedica el esfuerzo ahí. Traducción honesta a
+  rediseños: primero diagnóstico por síntomas y corrección dirigida
+  a lo que falla, en vez de rehacer la página entera «por si acaso».
+- **Lo que NO cambia:** leer la anatomía de K3.1 no mejora los pesos
+  de Dirsi ni su gusto. Lo que mejora el diseño en este sistema es
+  lo de siempre: el ojo (capturas reales), los criterios de este
+  repo y patrones guardados de trabajos verificados.
