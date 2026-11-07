@@ -76,3 +76,28 @@ registrado también lo que la destilación NO transfiere: el prior
 generativo del modelo, sus herramientas de imagen integradas y su bucle
 interno de vista previa. La skill propia `diseno_vitrina` lo convierte
 en procedimiento operativo de Dirsi.
+
+## 2026-11-07 (noche) — Revisión de los 47 repos y primer uso del sistema
+
+A petición de Antonio se revisaron con el ojo visual las superficies con
+cara pública de sus 47 repos de GitHub (9 capturas: Blockali, portafolio,
+Biblioteca de Prompts, Segundo Yo, Barbería, Hash Lab, DAO Vote, NFT
+Studio y el visor de mundo-vida-ia). Veredicto: las apps web3 y las de
+CenteIA están presentables; el visor de mundo-vida-ia es plano pero
+funcional; la superficie urgente era el PORTAFOLIO.
+
+Hallazgo verificado en el archivo: el borrador del 21 oct 2026 cargaba
+Tailwind desde un CDN externo — un único punto de fallo: sin ese CDN la
+página se renderiza ilegible (texto negro sobre fondo casi negro) — y
+traía enlaces de proyecto de relleno y un LinkedIn incorrecto.
+
+Rediseño ejecutado el mismo día con la skill `diseno_vitrina`, primera
+aplicación real del sistema destilado por la mañana: un solo archivo
+HTML+CSS sin dependencias, tema claro editorial (papel, tinta, un acento
+marino), tipografía serif de vitrina, sombra-como-borde, datos reales
+(Blockali destacado con sus cifras verificadas) y LinkedIn correcto.
+Verificación con el ojo en escritorio y móvil, incluido scroll real: la
+composición no necesitó correcciones; se corrigieron dos cosas técnicas
+(el revelado por scroll ahora es mejora progresiva — sin JS el contenido
+se ve siempre — y un enlace que se partía en móvil). El juicio de Antonio
+resuelve la entrada de calibración C-006 en mundo-dirsi.
