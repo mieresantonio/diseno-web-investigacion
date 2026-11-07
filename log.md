@@ -62,3 +62,17 @@ tipografía propia; en el Ciclo 4, cada app web3 ganó un gesto de
 cabecera propio (dao-vote no, por identidad suficiente), solo en
 presentación. Verificación por código, bundles y checklist, sin
 captura: la mirada visual de Antonio queda pendiente.
+
+## 2026-11-07 — Destilación del sistema de diseño de Grok Build
+Antonio exportó el workspace completo de la app que construyó con Grok
+Build («Factory · Estudio · Currículum») y se inspeccionó archivo por
+archivo. Dentro venía el sistema de diseño precargado de la plataforma
+(skill de diseño con cinco referencias, referencia de QA en navegador y
+el CSS real de la app). Se destiló a `sistema-diseno-vitrina.md` con
+redacción propia: tokens cuantificados, disciplina de color, radios
+concéntricos, sombra-como-borde, catálogo de recetas de movimiento,
+lista anti-slop, QA visual con veredicto y checklist de cierre. Queda
+registrado también lo que la destilación NO transfiere: el prior
+generativo del modelo, sus herramientas de imagen integradas y su bucle
+interno de vista previa. La skill propia `diseno_vitrina` lo convierte
+en procedimiento operativo de Dirsi.
