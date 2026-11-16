@@ -168,14 +168,16 @@ puede fallar); el favorito es un corazón o estrella con estado
 De: interfaz web del rag-demo (16 nov 2026).
 ```css
 .estado { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.punto { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+.punto { flex: none; width: 10px; height: 10px; border-radius: 50%;
+  transform: translateY(1px); }
 #estado-texto { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 ```
 No olvidar: sin `flex: 1; min-width: 0` en el texto, un texto largo
-(nombre de modelo, ruta) empuja al punto a su propia línea en
+(nombre de modelo) empuja al punto a su propia línea en
 pantallas estrechas: el span debe ocupar el ancho restante y
 partirse, no saltar entero. El punto lleva `flex: none` para que
-no se comprima.
+no se comprima y `translateY(1px)` para asentarse sobre la línea
+base del texto.
 
 ## 11. Formulario deshabilitado entero cuando el servicio no está
 De: interfaz web del rag-demo (16 nov 2026).
@@ -196,3 +198,20 @@ La regla general: el estado de «no disponible» se aplica a todo el
 formulario, no a su botón. Y el botón no debe parecer activo con el
 campo vacío: se deshabilita también entonces, con el aviso visible
 de por qué no se puede preguntar.
+
+## 12. Lista de fuentes con evidencia (cita verificable)
+De: interfaz web del rag-demo (16 nov 2026).
+```css
+.fuente { padding: 12px 0; border-top: 1px solid var(--borde); }
+.fuente:first-of-type { border-top: 0; padding-top: 4px; }
+.fuente-cabecera { display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.fuente-sim { margin-left: auto; font-variant-numeric: tabular-nums; }
+.fuente-texto { margin: 8px 0 0; color: var(--atenuado); white-space: pre-wrap; }
+```
+No olvidar: cada fuente lleva número, archivo y sección en la
+cabecera y la similitud a la derecha con `margin-left: auto` y
+`tabular-nums` para que las cifras no bailen; el fragmento va con
+`pre-wrap` para respetar sus saltos; la primera fuente no lleva
+borde superior (es el inicio de la lista, no una separación). Todo
+contenido recuperado se escapa antes de inyectarlo con `innerHTML`:
+el texto de una fuente nunca se confía tal cual.

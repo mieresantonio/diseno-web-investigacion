@@ -138,3 +138,11 @@ todo el formulario, no solo a su botón. Lección de proceso: la
 primera re-prueba falló porque el propio guion de prueba intentaba
 escribir en el campo ya deshabilitado — la prueba de que el
 arreglo funciona.
+
+## 2026-11-16 — Publicación del portafolio rediseñado
+El rediseño del 7 nov se publicó en su propio repo con GitHub
+Pages en vivo (https://mieresantonio.github.io/portfolio/,
+HTTP 200): el archivo único HTML+CSS sin dependencias se subió
+tal cual, sin build que pudiera fallar. Cierra el caso abierto
+esa noche: la decisión de cero dependencias no solo evitó el
+punto de fallo del CDN, también hizo trivial la publicación.

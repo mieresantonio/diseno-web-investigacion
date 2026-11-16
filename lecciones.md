@@ -83,3 +83,12 @@ quedó corriendo en el puerto 5000 y bloqueó la verificación de la API
 al día siguiente (mismo puerto). Se detuvo a mano.
 Lección: toda verificación termina matando su servidor y comprobando
 el puerto libre. El «después» forma parte de la verificación.
+
+## 2026-11-16 — Flask sirve la plantilla vieja sin modo debug
+Hecho: tras corregir el punto de estado de la interfaz del
+rag-demo, la primera re-captura salió idéntica a la anterior:
+Flask, sin modo debug, cachea la plantilla y seguía sirviendo la
+versión vieja.
+Lección: reiniciar el servidor antes de re-verificar cualquier
+cambio de plantilla; si la re-captura sale idéntica, sospechar
+de la caché antes que del arreglo.

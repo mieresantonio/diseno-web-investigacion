@@ -14,7 +14,9 @@ Porqué: Antonio revisa y aprueba todo desde el teléfono; si en móvil se
 rompe, el diseño está roto.
 Ejemplo: en las 4 apps, los puntos de corte bajan a 700/560/480 px, las
 tarjetas pasan de 3 columnas a 1 y los botones de acción pasan a ancho
-completo en móvil.
+completo en móvil. La interfaz del rag-demo lo lleva al extremo: una
+sola columna fluida sin puntos de corte de layout, verificada a
+390×844 con áreas de toque de 44 px.
 
 ## 3. Un solo set de iconos, siempre
 Porqué: mezclar librerías produce inconsistencia visual y peso muerto.

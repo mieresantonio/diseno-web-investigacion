@@ -95,6 +95,16 @@ La VM donde se hizo el trabajo no tiene navegador visual. Por tanto:
   vista en pantalla. Es la misma salvedad que ya quedó registrada
   para la pasada del Ciclo 2 en `log.md`.
 
+Actualización 16 nov 2026: la frase «la VM no tiene navegador
+visual» resultó incorrecta — el 3 nov se comprobó que el Chromium
+headless de Playwright ya estaba descargado en la VM, y desde
+entonces la verificación visual se hace con el ojo visual local
+(portafolio, 7 nov; interfaz del rag-demo, 16 nov). La salvedad
+de esta nota sigue valiendo para los Ciclos 2 y 4: esas dos
+pasadas no se verificaron por captura. Con el ojo local
+disponible, esa verificación pendiente ya no depende solo de
+la mirada de Antonio: puede hacerse desde la VM.
+
 ## Qué deja esta nota
 
 - El diagnóstico de la sección 1 sirve como instrumento de medida,

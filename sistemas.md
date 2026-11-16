@@ -77,6 +77,27 @@ de texto ensamblado en oscuro (`#1f2430`) para distinguir «salida» de
 «entrada». Foco ámbar visible también sobre el hero oscuro (cambia a
 `#fde68a` dentro del hero).
 
+## 5. Interfaz del rag-demo — teal claro (herramienta de consulta)
+Uso: herramientas de pregunta-respuesta, consulta de documentos,
+utilidades de una sola tarea donde la respuesta es el producto.
+```css
+:root {
+  --fondo: #fafaf7; --superficie: #ffffff; --elevado: #f3f3ee;
+  --texto: #1c1c1a; --atenuado: #6f6f68; --borde: #e3e3db;
+  --acento: #0f766e; --acento-suave: #e6f5f3;
+  --aviso: #92400e; --aviso-suave: #fef3c7;
+  --error: #b91c1c; --error-suave: #fee2e2;
+  --radio-s: 4px; --radio-m: 8px; --radio-l: 12px; --radio-xl: 16px;
+}
+```
+Notas: una sola columna fluida (máximo 720 px), sin puntos de corte
+de layout; botón de 44 px de alto mínimo; cifras con
+`tabular-nums`; guardas de `prefers-reduced-motion`. El estado «ok»
+reusa el acento teal: no hay verde de éxito separado. Aviso y error
+van en tintas pálidas (`--aviso-suave`, `--error-suave`), nunca
+saturados. Primera interfaz construida con el sistema
+diseno_vitrina tras el portafolio (16 nov 2026).
+
 ## Cuándo usar cada uno
 | Sistema | Úsalo para | No lo uses para |
 |---|---|---|
@@ -84,6 +105,7 @@ de texto ensamblado en oscuro (`#1f2430`) para distinguir «salida» de
 | Barbería dorado | Servicios con cita, marca premium | Herramientas de texto, datos |
 | Segundo Yo violeta | Productividad, aprendizaje | Marcas que necesitan sobriedad |
 | Biblioteca índigo | Catálogos, búsqueda, filtros | Landing de un solo mensaje |
+| Interfaz rag-demo teal | Consulta de documentos, utilidades de una tarea | Marcas que necesitan calidez, editorial |
 
 Regla común: fondo, panel, texto, texto atenuado, línea, acento y
 acento suave, más un color de éxito y uno de error. Nada más.
