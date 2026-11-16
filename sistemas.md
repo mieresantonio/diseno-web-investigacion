@@ -6,7 +6,7 @@ con `letter-spacing` negativo (-0.01 a -0.02em) y tamaños fluidos con
 `clamp()`. La diferencia entre sistemas es la paleta y el carácter, no
 la tipografía.
 
-## 1. Blockali — oscuro web3 (producto serio, educación tech)
+## 1. Block Ethos — oscuro web3 (producto serio, educación tech)
 Uso: plataformas de aprendizaje, dashboards de producto, temas
 tecnológicos donde el oscuro es la norma.
 ```css
@@ -80,7 +80,7 @@ de texto ensamblado en oscuro (`#1f2430`) para distinguir «salida» de
 ## Cuándo usar cada uno
 | Sistema | Úsalo para | No lo uses para |
 |---|---|---|
-| Blockali web3 | Producto tech, dashboards | Negocios locales, editorial |
+| Block Ethos web3 | Producto tech, dashboards | Negocios locales, editorial |
 | Barbería dorado | Servicios con cita, marca premium | Herramientas de texto, datos |
 | Segundo Yo violeta | Productividad, aprendizaje | Marcas que necesitan sobriedad |
 | Biblioteca índigo | Catálogos, búsqueda, filtros | Landing de un solo mensaje |

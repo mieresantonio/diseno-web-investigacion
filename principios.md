@@ -18,7 +18,7 @@ completo en móvil.
 
 ## 3. Un solo set de iconos, siempre
 Porqué: mezclar librerías produce inconsistencia visual y peso muerto.
-Ejemplo: Blockali llegó con tres librerías a la vez (Font Awesome por
+Ejemplo: Block Ethos llegó con tres librerías a la vez (Font Awesome por
 CDN, bootstrap-icons y lucide-react); el rediseño unificó todo a Lucide.
 
 ## 4. Los datos de ejemplo van siempre etiquetados

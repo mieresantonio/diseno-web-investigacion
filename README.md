@@ -22,11 +22,11 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
 - `principios.md` — Las reglas de diseño de Dirsi, cada una con su porqué
   y un ejemplo real de una app construida.
 - `sistemas.md` — Los sistemas de color y tipografía usados de verdad
-  (Blockali, barbería, Segundo Yo, biblioteca de prompts) y cuándo usar
+  (Block Ethos, barbería, Segundo Yo, biblioteca de prompts) y cuándo usar
   cada uno.
 - `patrones.md` — Patrones de componentes reutilizables con esqueletos
   de código: hero, tarjetas, agenda, chat, constructor, ficha, glosario,
-  formularios, favoritos.
+  formularios, favoritos, punto de estado, formulario deshabilitado.
 - `lecciones.md` — Lo que falló o decepcionó y qué enseñó.
 - `investigacion-kimi-k3.md` — Qué se sabe de cómo diseña Kimi K3 y qué
   toma Dirsi de eso (un método, no un mecanismo).
@@ -44,10 +44,15 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
 
 Síntesis original a partir de: las 4 apps construidas en octubre de 2026
 (demo de barbería, biblioteca de prompts, Segundo Yo, API Segundo Yo),
-el rediseño de Blockali, la revisión ModelBattle de 4 plataformas de
+el rediseño de Block Ethos, la revisión ModelBattle de 4 plataformas de
 aprendizaje blockchain, el estudio de distilación de Kimi K3, los
 materiales CenteIA «Tu segundo yo 24/7» y el método de clonación limpia
 (observar → especificar → reconstruir → comparar paridad).
 
 Nada de lo aquí escrito es texto copiado de esos materiales: son ideas
 y estructuras redactadas con palabras propias.
+
+Nota de nombre (16 nov 2026): el proyecto de aprendizaje blockchain
+se llamó «Blockali» hasta el 16 de noviembre de 2026; desde entonces
+es «Block Ethos» (eslogan «Web3 Space»). Las entradas anteriores a
+esa fecha hablan del mismo proyecto con su nombre actual.

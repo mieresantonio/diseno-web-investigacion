@@ -163,3 +163,36 @@ function toggleFav(id) {
 No olvidar: leer con `try/catch` o valor por defecto (el almacenamiento
 puede fallar); el favorito es un corazón o estrella con estado
 «on» en acento; ofrecer vista «solo favoritos».
+
+## 10. Punto de estado + texto largo en flex
+De: interfaz web del rag-demo (16 nov 2026).
+```css
+.estado { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.punto { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+#estado-texto { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+```
+No olvidar: sin `flex: 1; min-width: 0` en el texto, un texto largo
+(nombre de modelo, ruta) empuja al punto a su propia línea en
+pantallas estrechas: el span debe ocupar el ancho restante y
+partirse, no saltar entero. El punto lleva `flex: none` para que
+no se comprima.
+
+## 11. Formulario deshabilitado entero cuando el servicio no está
+De: interfaz web del rag-demo (16 nov 2026).
+```js
+// Rama "sin índice": el campo se deshabilita, no solo el botón.
+campo.disabled = true;
+// El botón además se apaga cuando el campo está vacío.
+boton.disabled = !indiceListo || texto.length === 0;
+```
+```css
+textarea:disabled { background: var(--elevado); color: var(--atenuado); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+```
+No olvidar: si solo se deshabilita el botón, el usuario escribe la
+pregunta y se encuentra un botón muerto; el campo debe quedar
+deshabilitado y con aspecto de tal (fondo distinto, texto atenuado).
+La regla general: el estado de «no disponible» se aplica a todo el
+formulario, no a su botón. Y el botón no debe parecer activo con el
+campo vacío: se deshabilita también entonces, con el aviso visible
+de por qué no se puede preguntar.

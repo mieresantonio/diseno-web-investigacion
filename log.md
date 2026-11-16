@@ -46,7 +46,7 @@ fuente de marca (Oswald) — el resto ya cumplía. Cada app guarda su
 cambios confirmados en el CSS compilado; sin capturas visuales (la VM
 no tiene navegador), la mirada final en pantalla queda de Antonio.
 
-## 2026-11-02 — Lección de despliegue (Blockali en producción)
+## 2026-11-02 — Lección de despliegue (Block Ethos en producción)
 Dos builds seguidos salieron mal por empaquetar sin mirar dentro.
 Regla que queda, ya escrita en el runbook de despliegue: compilar
 SIEMPRE con `VITE_BACKEND_URL=https://BC123.pythonanywhere.com` y
@@ -80,7 +80,7 @@ en procedimiento operativo de Dirsi.
 ## 2026-11-07 (noche) — Revisión de los 47 repos y primer uso del sistema
 
 A petición de Antonio se revisaron con el ojo visual las superficies con
-cara pública de sus 47 repos de GitHub (9 capturas: Blockali, portafolio,
+cara pública de sus 47 repos de GitHub (9 capturas: Block Ethos, portafolio,
 Biblioteca de Prompts, Segundo Yo, Barbería, Hash Lab, DAO Vote, NFT
 Studio y el visor de mundo-vida-ia). Veredicto: las apps web3 y las de
 CenteIA están presentables; el visor de mundo-vida-ia es plano pero
@@ -95,9 +95,46 @@ Rediseño ejecutado el mismo día con la skill `diseno_vitrina`, primera
 aplicación real del sistema destilado por la mañana: un solo archivo
 HTML+CSS sin dependencias, tema claro editorial (papel, tinta, un acento
 marino), tipografía serif de vitrina, sombra-como-borde, datos reales
-(Blockali destacado con sus cifras verificadas) y LinkedIn correcto.
+(Block Ethos destacado con sus cifras verificadas) y LinkedIn correcto.
 Verificación con el ojo en escritorio y móvil, incluido scroll real: la
 composición no necesitó correcciones; se corrigieron dos cosas técnicas
 (el revelado por scroll ahora es mejora progresiva — sin JS el contenido
 se ve siempre — y un enlace que se partía en móvil). El juicio de Antonio
 resuelve la entrada de calibración C-006 en mundo-dirsi.
+
+## 2026-11-16 — Interfaz web mínima del rag-demo (segunda mitad de su ruta nº 5)
+
+Primera interfaz construida con el sistema diseno_vitrina tras el
+portafolio: una sola página autocontenida (`templates/index.html`,
+sin recursos externos) que pregunta desde el navegador y muestra la
+respuesta extractiva con sus fuentes citadas, confianza y
+similitud. Tokens (fondo papel, superficie blanca, un acento teal),
+radios concéntricos, áreas de toque ≥ 44 px, estados
+vacío/cargando/error diseñados, `prefers-reduced-motion` y cifras
+con `tabular-nums`.
+
+Verificación con el ojo visual + interacción real en escritorio
+1280×800 y móvil 390×844: cero errores de JavaScript; un defecto
+visual corregido (el punto de estado saltaba a su propia línea en
+móvil; `#estado-texto` con `flex: 1; min-width: 0` — patrón nº 10
+en `patrones.md`). Lección de proceso: Flask cachea la plantilla
+sin modo debug, así que la primera re-captura tras el arreglo
+salió idéntica; hay que reiniciar el servidor antes de
+re-verificar.
+
+## 2026-11-16 — Estado sin índice de la interfaz del rag-demo
+
+Segunda pasada sobre la misma interfaz, esta vez en el estado sin
+índice (la primera solo lo cubrió a nivel de HTML): defecto real —
+el botón quedaba deshabilitado pero el campo de texto seguía
+habilitado, invitando a escribir una pregunta que no se podía
+enviar. Arreglo: `campo.disabled = true` en la rama sin índice (el
+estilo `:disabled` del campo ya existía). Verificado en escritorio
+y móvil con el ojo visual: campo y botón deshabilitados, aviso
+visible, cero errores de JavaScript; el camino con índice intacto
+tras restaurar (REA → confianza alta 0,526, 4 fuentes). Patrón
+nº 11 en `patrones.md`: el estado de «no disponible» se aplica a
+todo el formulario, no solo a su botón. Lección de proceso: la
+primera re-prueba falló porque el propio guion de prueba intentaba
+escribir en el campo ya deshabilitado — la prueba de que el
+arreglo funciona.

@@ -17,7 +17,7 @@ Lección: reservar herramientas de un solo uso para UNA pasada final,
 sobre una copia del proyecto, con alcance muy acotado y revisión antes
 de aceptar. Nunca como base del trabajo.
 
-## 2026-10-22 — Blockali: la plantilla se veía por todas partes
+## 2026-10-22 — Block Ethos: la plantilla se veía por todas partes
 Hechos: README de plantilla, páginas Demo/Single de ejemplo, artefactos
 de build versionados, `render.yaml` llamado «sample-service-name»,
 favicon de 4Geeks, `lang="en"` en una app en español, mojibake
@@ -28,14 +28,14 @@ plantilla, unificar dependencias, idioma y metadatos — antes de tocar
 un solo color. Lo que el usuario ve primero (README, favicon, idioma)
 pesa más que cualquier degradado.
 
-## 2026-10-22 — Blockali: tres librerías de iconos a la vez
+## 2026-10-22 — Block Ethos: tres librerías de iconos a la vez
 Hecho: Font Awesome por CDN, bootstrap-icons y lucide-react conviviendo
 en la misma app.
 Lección: un solo set de iconos por proyecto (principio 3). La mezcla
 no solo pesa: hace que la interfaz parezca armada con piezas de otros
 productos.
 
-## 2026-10-22 — Blockali: 239 líneas de CSS sobre Bootstrap
+## 2026-10-22 — Block Ethos: 239 líneas de CSS sobre Bootstrap
 Hecho: todo el «sistema de diseño» eran sobrescrituras de Bootstrap.
 Se veía decente, pero era nivel plantilla: sin modo oscuro (raro en
 web3), sin imágenes propias, componentes stock sin pulir.
@@ -58,7 +58,7 @@ Hecho: lo mejor valorado de las 4 versiones fueron los laboratorios:
 hash SHA-256 en vivo, cadena que se rompe al alterar un bloque,
 calculadora de gas, Solidity real copiable con enlace a Remix.
 Lección: en apps educativas, el interactivo es el diferenciador. Por
-eso Blockali ganó su laboratorio (`/laboratorio`) en la fase 1 y por
+eso Block Ethos ganó su laboratorio (`/laboratorio`) en la fase 1 y por
 eso el demo de barbería se define por su flujo, no por su landing.
 
 ## 2026-10-26 — Bug de render en el chat: array contra objeto
