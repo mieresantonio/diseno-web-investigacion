@@ -141,6 +141,9 @@ Consecuencia práctica: este sistema cubre el diseño «de molde» (la gran mayo
 - [ ] ≤ 5 colores, ≤ 2 familias, escala de espaciado consistente
 - [ ] Radios concéntricos en todo anidamiento
 - [ ] Contraste AA; donde cambia el fondo, cambia también el texto
+- [ ] Modo oscuro (si existe): mismos tokens con valores oscuros;
+  contraste AA verificado en los cuatro pares (papel y superficie,
+  en cada tema)
 - [ ] Móvil ~390 px sin desbordamiento; áreas de toque ≥ 44 px
 - [ ] Iconos e imágenes reales; cero señales anti-slop de la §6
 - [ ] Estados vacío, cargando y error diseñados
@@ -148,6 +151,46 @@ Consecuencia práctica: este sistema cubre el diseño «de molde» (la gran mayo
 - [ ] Cifras vivas con `tabular-nums`; titulares con `balance`, cuerpo con `pretty`
 - [ ] Verificado con capturas reales (escritorio y móvil) leídas por quien construye
 - [ ] Tarjeta de enlace y favicon resueltos si la app se publica
+
+## 13. Modo oscuro por re-tokenización (receta del portafolio)
+
+El portafolio demuestra que el modo oscuro no es un segundo diseño:
+es el mismo sistema con otros valores. La técnica, verificada en
+`portfolio/index.html` (23 nov 2026):
+
+1. **Mismos nombres de token, valores nuevos** dentro de
+   `@media (prefers-color-scheme: dark)`: papel, superficie, tinta,
+   atenuado, tenue, línea, acento, acento profundo, cielo y las dos
+   recetas de sombra se redefinen; ningún componente cambia.
+2. **Lo que no cambia de tema se declara**: el bloque de código
+   queda oscuro en ambos temas (`--code-bg` no se redefine), y la
+   impresión fuerza los valores claros.
+3. **Las sombras cambian de receta, no solo de color**: en claro,
+   anillo negro al 6 %; en oscuro, anillo blanco al 8 % (12 % en
+   hover), con sombra negra más densa.
+4. **El contraste se verifica en cuatro pares por color**: cada
+   tinta contra el papel y contra la superficie, en cada tema.
+   Tabla medida en el portafolio (WCAG, calculada 23 nov 2026):
+
+   | Par texto/fondo | Claro / papel | Claro / superficie | Oscuro / papel | Oscuro / superficie |
+   |---|---|---|---|---|
+   | Tinta | 14,68 | 15,99 | 13,22 | 10,72 |
+   | Atenuado | 5,63 | 6,14 | 8,64 | 7,01 |
+   | Tenue | 4,78 | 5,20 | 6,11 | 4,95 |
+   | Cielo (enlaces) | 5,74 | 6,26 | 6,86 | 5,57 |
+   | Blanco sobre acento | 12,24 | — | 6,31 | — |
+
+   Mínimo del sistema: 4,78 (tenue claro sobre papel). Todo par
+   supera el 4,5:1 de AA.
+5. **Los números se etiquetan por tema y fondo**: el comentario
+   original del portafolio listaba solo los pares del tema oscuro
+   sin decirlo, y se leían como si cubrieran ambos temas. La
+   conclusión (todo ≥ 4,5:1) era cierta; las cifras, mal
+   atribuidas. Cada cifra de contraste lleva su tema y su fondo.
+
+Regla general: un tema nuevo es una re-tokenización, no una
+reescritura. Si un componente necesita un estilo distinto por
+tema, falta un token.
 
 ---
 

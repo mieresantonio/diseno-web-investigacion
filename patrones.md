@@ -215,3 +215,235 @@ cabecera y la similitud a la derecha con `margin-left: auto` y
 borde superior (es el inicio de la lista, no una separación). Todo
 contenido recuperado se escapa antes de inyectarlo con `innerHTML`:
 el texto de una fuente nunca se confía tal cual.
+
+## 13. Revelado al hacer scroll como mejora progresiva
+De: portafolio (el mecanismo existe desde el rediseño del 7 nov 2026;
+verificado en `portfolio/index.html`, 23 nov 2026).
+```html
+<!-- En <head>, antes del CSS: solo si hay JS la página se marca como tal -->
+<script>document.documentElement.classList.add('js');</script>
+```
+```css
+/* Sin JS no hay clase .js: el contenido se ve siempre. Con JS, oculto hasta revelar. */
+.js .rev { opacity: 0; transform: translateY(10px); }
+.js .rev.in { opacity: 1; transform: none;
+  transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 40ms); }
+@media (prefers-reduced-motion: reduce) {
+  .js .rev { opacity: 1; transform: none; }
+  .js .rev.in { transition: none; }
+}
+@media print { .js .rev { opacity: 1; transform: none; } }
+```
+```js
+// Solo elementos fuera del hero; escalonado por grupo con --i.
+var els = document.querySelectorAll('.rev');
+if (!('IntersectionObserver' in window)) {
+  els.forEach(function (el) { el.classList.add('in'); });
+} else {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.05 });
+  els.forEach(function (el) { io.observe(el); });
+}
+// Red de seguridad: nada queda oculto si el observador no dispara.
+setTimeout(function () {
+  els.forEach(function (el) { el.classList.add('in'); });
+}, 2500);
+```
+No olvidar: la puerta es la clase `.js` en `<html>` — sin JavaScript
+no hay nada oculto que revelar, así que el contenido nunca depende
+del script; la transición vive en `.in`, no en `.rev`: solo se anima
+la entrada. El observador se da de baja (`unobserve`) tras revelar
+cada elemento, y la red de seguridad de 2,5 s cubre el caso en que
+no dispare (pestaña en segundo plano, elemento ya visible al cargar).
+El hero no se revela: es lo primero que se ve, no necesita entrar.
+El escalonado usa el token de desfase de 40 ms del sistema de vitrina
+(§2) y la duración de 500 ms es su token de énfasis raro; el revelado
+de contenido estándar es 400 ms.
+
+## 14. Esqueleto de carga con la silueta exacta de la tarjeta real
+De: Block Ethos, `PathCardSkeleton` + `.bk-skeleton` en `index.css`
+(2ª tanda, 16 nov 2026; verificado en el clon de esta sesión).
+```jsx
+// Misma silueta que la tarjeta real (imagen de 160 px, badge, título,
+// descripción y pie) para que la carga no mueva el layout.
+// aria-hidden: el esqueleto no es contenido.
+<div className="card h-100 overflow-hidden" aria-hidden="true">
+  <div className="bk-skeleton bk-skeleton-img" />
+  <div className="card-body d-flex flex-column">
+    <div className="bk-skeleton mb-2" style={{ width: "92px", height: "20px" }} />
+    <div className="bk-skeleton mb-2" style={{ width: "80%", height: "22px" }} />
+    <div className="bk-skeleton mb-2" style={{ width: "100%", height: "14px" }} />
+    <div className="bk-skeleton mb-3" style={{ width: "65%", height: "14px" }} />
+    <div className="d-flex justify-content-between align-items-center mt-auto">
+      <div className="bk-skeleton" style={{ width: "70px", height: "14px" }} />
+      <div className="bk-skeleton" style={{ width: "96px", height: "31px", borderRadius: "50rem" }} />
+    </div>
+  </div>
+</div>
+```
+```css
+/* Brillo casi invisible (banda al 8 %, diseno_vitrina §3): panel de base. */
+.bk-skeleton {
+  background-color: var(--bk-panel-2);
+  background-image: linear-gradient(100deg, transparent 40%,
+    rgba(233, 238, 251, 0.08) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: bk-shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+/* La imagen del esqueleto mide 160 px como la de la tarjeta real,
+   sin radio (la tarjeta recorta con overflow). */
+.bk-skeleton-img { height: 160px; border-radius: 0; }
+@keyframes bk-shimmer {
+  from { background-position: 120% 0; }
+  to { background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .bk-skeleton { animation: none; } }
+```
+No olvidar: la rejilla de esqueletos usa la misma distribución
+responsive que la rejilla real (1 / 2 / 3 columnas) — si no, el
+layout salta al llegar los datos aunque cada tarjeta mida igual;
+cada banda del esqueleto reproduce una pieza real (badge, título,
+líneas, pie) con sus medidas, no un rectángulo genérico; el brillo
+es una banda móvil sobre el color de panel, no un cambio de fondo
+entero; con movimiento reducido el esqueleto queda fijo, sin
+animación. Instancia la receta «Esqueleto → contenido» de
+`sistema-diseno-vitrina.md` §7 con números concretos (1,4 s,
+banda al 8 %).
+
+## 15. Error de carga humano con reintento
+De: Block Ethos, `LoadError` + `BACKEND_DORMIDO` en
+`src/front/components/LoadError.jsx`, usado en `Courses.jsx` y
+`LearningPaths.jsx` (verificado 23 nov 2026).
+```js
+// Mensaje compartido: la causa real, en lenguaje humano, no el error técnico.
+export const BACKEND_DORMIDO = {
+  title: "El servidor está despertando",
+  message: "Nuestro servidor duerme cuando nadie lo usa y tarda unos segundos en arrancar. Pulsa «Reintentar» y el contenido aparecerá."
+};
+```
+```jsx
+<div className="card border-0 shadow-sm p-4 text-center my-4" role="alert">
+  {/* align-self-center: .card es flex-column en Bootstrap, así que
+      text-center no centra el icono; sin esto quedaba a la izquierda. */}
+  <span className="icon-chip align-self-center mb-3"><WifiOff size={22} /></span>
+  <h5 className="fw-bold">{title}</h5>
+  <p className="text-muted small mx-auto mb-3" style={{ maxWidth: "480px" }}>
+    {message}
+  </p>
+  <button type="button" className="btn btn-primary rounded-pill px-4" onClick={onRetry}>
+    Reintentar
+  </button>
+</div>
+```
+No olvidar: nunca mostrar el mensaje técnico crudo al visitante
+(antes se veía literalmente «Failed to fetch» en inglés); el
+detalle técnico va a la consola (`console.error` en quien llama),
+donde lo ve quien desarrolla. El mensaje explica la causa en
+lenguaje humano y dice qué hacer: reintentar. El botón de
+reintento es obligatorio, no opcional: un error sin salida es un
+callejón. `role="alert"` para que el lector de pantalla lo
+anuncie; el texto con ancho máximo (~480 px) centrado para que no
+se estire en pantallas anchas; el icono lleva `align-self-center`
+porque `.card` es flex-column en Bootstrap y `text-center` no lo
+centra. El mensaje se comparte como constante (`BACKEND_DORMIDO`):
+la misma causa, el mismo texto en todas las pantallas.
+
+## 16. Historial de sesión solo-DOM
+De: interfaz web del rag-demo (verificado en
+`templates/index.html`, 23 nov 2026).
+```html
+<section class="tarjeta" id="historial" aria-label="Historial de la sesión" hidden>
+  <h2>Historial de la sesión</h2>
+  <ol class="historial-lista" id="historial-lista"></ol>
+  <p class="historial-nota">Solo vive en esta página: al recargar se
+  borra. La más reciente queda arriba.</p>
+</section>
+```
+```css
+.historial-lista { margin: 0; padding: 0; list-style: none; }
+.historial-entrada { display: flex; gap: 12px; flex-wrap: wrap;
+  align-items: baseline; justify-content: space-between;
+  padding: 10px 0; border-top: 1px solid var(--borde); font-size: 14px; }
+.historial-entrada:first-child { border-top: 0; padding-top: 4px; }
+.historial-pregunta { font-weight: 600; }
+.historial-meta { color: var(--atenuado);
+  font-variant-numeric: tabular-nums; white-space: nowrap; }
+```
+```js
+function agregarHistorial(pregunta, confianza, similitudMaxima) {
+  // Solo DOM, sin persistencia: al recargar la página se borra.
+  // Se construye con nodos (textContent), nunca con innerHTML, para
+  // que una pregunta con <script> no pueda inyectar nada.
+  var entrada = document.createElement("li");
+  entrada.className = "historial-entrada";
+  var preguntaSpan = document.createElement("span");
+  preguntaSpan.className = "historial-pregunta";
+  preguntaSpan.textContent = pregunta;
+  var metaSpan = document.createElement("span");
+  metaSpan.className = "historial-meta";
+  metaSpan.textContent =
+    (confianza === "alta" ? "Confianza alta" : "Confianza baja") +
+    " · sim. " + (typeof similitudMaxima === "number"
+      ? similitudMaxima.toFixed(3) : "—");
+  entrada.appendChild(preguntaSpan);
+  entrada.appendChild(metaSpan);
+  historialLista.insertBefore(entrada, historialLista.firstChild);
+  // Tope de 20 entradas: la sesión no debe crecer sin límite.
+  while (historialLista.children.length > 20) {
+    historialLista.removeChild(historialLista.lastChild);
+  }
+  historial.hidden = false;
+}
+```
+No olvidar: la sección nace oculta (`hidden`) y solo aparece con
+la primera entrada — sin historial no hay tarjeta vacía; cada
+entrada se construye con nodos y `textContent`, nunca con
+`innerHTML`, para que una pregunta con `<script>` no pueda
+inyectar nada; la más reciente queda arriba (`insertBefore(…,
+firstChild)`); tope de 20 entradas, se descarta la más antigua;
+la nota visible lo dice sin rodeos («Solo vive en esta página:
+al recargar se borra»); la meta (confianza + similitud) va con
+`tabular-nums` y `white-space: nowrap` para que las cifras no
+bailen ni se partan. Si el historial debe sobrevivir a la
+recarga, no es este patrón: es el 9 (persistencia local)
+adaptado a entradas en vez de a favoritos.
+
+## 17. Desglose de relevancia visible
+De: interfaz web del rag-demo (verificado en
+`templates/index.html`, 23 nov 2026).
+```js
+// Desglose del ranking híbrido: la relevancia (lo que ordena las
+// fuentes) es la similitud semántica más la bonificación léxica.
+// Sin el desglose, una fuente con similitud menor por encima de
+// otra parecía un error de ordenación; con él, se ve el porqué.
+function desgloseRelevancia(f) {
+  var sim = (typeof f.similitud === "number")
+    ? f.similitud.toFixed(3) : "—";
+  if (typeof f.relevancia !== "number" ||
+      typeof f.bonificacion_lexica !== "number") {
+    return "sim. " + sim;
+  }
+  return "sim. " + sim + " + léx. " +
+    f.bonificacion_lexica.toFixed(3) + " → relev. " +
+    f.relevancia.toFixed(3);
+}
+```
+Uso: en la cabecera de cada fuente (patrón 12), en el hueco de
+`.fuente-sim`, sin añadir ninguna línea nueva:
+```js
+'<span class="fuente-sim">' + escapar(desgloseRelevancia(f)) + "</span>"
+```
+No olvidar: el desglose vive en el mismo hueco que la cifra
+simple (`.fuente-sim`, a la derecha con `margin-left: auto` y
+`tabular-nums`) — no añade una línea nueva a la cabecera; si la
+API no trae los campos del desglose, cae a «sim. X» sin romperse
+(los `typeof` antes de formatear); se escapa antes de inyectar,
+como todo contenido recuperado (patrón 12). La regla general:
+cuando el orden de una lista no se explica por la cifra que se
+muestra, enseñar el desglose que lo ordena en vez de dejar que
+parezca un error de ordenación.

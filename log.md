@@ -146,3 +146,25 @@ HTTP 200): el archivo único HTML+CSS sin dependencias se subió
 tal cual, sin build que pudiera fallar. Cierra el caso abierto
 esa noche: la decisión de cero dependencias no solo evitó el
 punto de fallo del CDN, también hizo trivial la publicación.
+
+## 2026-11-23 — Sesión de mejora: patrones 13 y 14, modo oscuro y corrección del sistema Block Ethos
+
+Segunda aplicación del método de esta sesión (leer el artefacto,
+no su resumen): dos patrones nuevos destilados de archivos leídos
+de primera mano — el nº 13 (revelado al hacer scroll como mejora
+progresiva, del portafolio) y el nº 14 (esqueleto con la silueta
+exacta de la tarjeta real, de Block Ethos) — y una sección nueva
+en el sistema de vitrina (§13, modo oscuro por re-tokenización)
+con la tabla de contraste del portafolio calculada en la sesión.
+La misma lectura dejó al descubierto que `sistemas.md` §1
+documentaba un Block Ethos de octubre (3 tokens, `--bk-primary`
+que ya no existe): ahora refleja los 15 tokens reales, el
+re-tematizado de Bootstrap y la tipografía web propia.
+Verificación manual completa del cuaderno: las 12 comprobaciones
+de `verificar.py` se revisaron una a una contra los archivos y el
+artefacto (12/12 en verde); la corrida ejecutable queda pendiente
+para la fase de publicación. Las 6 capturas de la galería se
+revisaron a ojo contra su índice (las 6 coinciden) y la franja de
+estado en móvil se comparó píxel a píxel entre antes y después
+(0 píxeles distintos), confirmando la nota honesta de la galería
+sobre el patrón nº 10.

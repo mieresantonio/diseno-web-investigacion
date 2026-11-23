@@ -1,27 +1,45 @@
 # Sistemas de color y tipografía usados de verdad
 
-Todos usan la misma pila tipográfica del sistema
+Los sistemas 2–5 usan la misma pila tipográfica del sistema
 (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`), títulos
 con `letter-spacing` negativo (-0.01 a -0.02em) y tamaños fluidos con
-`clamp()`. La diferencia entre sistemas es la paleta y el carácter, no
-la tipografía.
+`clamp()`. La diferencia entre sistemas es la paleta y el carácter,
+no la tipografía. Excepción: Block Ethos (sistema nº 1) usa fuentes
+web propias (Space Grotesk, Inter, JetBrains Mono); ver su sección.
 
 ## 1. Block Ethos — oscuro web3 (producto serio, educación tech)
 Uso: plataformas de aprendizaje, dashboards de producto, temas
 tecnológicos donde el oscuro es la norma.
 ```css
 :root {
-  --bk-primary: #2563eb;
-  --bk-violet: #7c3aed;
-  --bk-cyan: #06b6d4;
-}
-.hero {
-  background: linear-gradient(92deg, #2563eb, #7c3aed 55%, #06b6d4);
+  --bk-blue: #2563eb; --bk-violet: #7c3aed; --bk-cyan: #06b6d4;
+  --bk-gold: #f5b942;
+  --bk-bg: #070d1a; --bk-navy: #0b1120;
+  --bk-panel: #0e1730; --bk-panel-2: #111d3a;
+  --bk-line: rgba(148, 163, 184, 0.14);
+  --bk-line-2: rgba(148, 163, 184, 0.26);
+  --bk-text: #e9eefb; --bk-muted: #97a3bd; --bk-muted-2: #6b7794;
+  --bk-grad: linear-gradient(92deg, #2563eb 0%, #7c3aed 55%, #06b6d4 110%);
+  --bk-radius: 18px;
+  /* Bootstrap 5.3 re-tematizado con los tokens propios */
+  --bs-body-bg: var(--bk-bg); --bs-body-color: var(--bk-text);
+  --bs-primary: var(--bk-blue); --bs-card-bg: var(--bk-panel);
 }
 ```
-Notas: un solo set de iconos (Lucide). Fondo con patrón de nodos en
-la landing. Sirve para productos con identidad técnica; no usar para
-negocios de barrio (demasiado frío) ni para contenido editorial.
+Tipografía: Space Grotesk (titulares) · Inter (texto) ·
+JetBrains Mono (código y datos). Es la excepción a la pila del
+sistema que comparten los demás sistemas de este archivo.
+Notas: un solo set de iconos (Lucide). Fondo con patrón de nodos
+en la landing (`landing-decor`, SVG en línea) y resplandores
+radiales tenues sobre el fondo navy. Los botones principales usan
+el degradado de marca; el botón deshabilitado pierde el degradado
+y la sombra para parecer deshabilitado de verdad (Bootstrap solo
+baja la opacidad y el gradiente seguía viéndose activo). Rompe a
+conciencia la regla de una sola familia de acento del sistema de
+vitrina (§3): el degradado tricolor es la marca del producto, no
+un acento funcional. Sirve para productos con identidad técnica;
+no usar para negocios de barrio (demasiado frío) ni para
+contenido editorial.
 
 ## 2. Barbería — oscuro + dorado (negocio local con carácter)
 Uso: negocios locales, servicios con cita, marcas que quieren verse

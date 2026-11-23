@@ -33,10 +33,14 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
   destilado del sistema precargado de Grok Build (tokens, disciplina
   de color, radios concéntricos, recetas de movimiento, anti-slop y
   checklist de cierre); su skill operativa es `diseno_vitrina`.
+- `sistema-diseno-vitrina-EN.md` — One-page English summary of the
+  showcase design system; the full reference is
+  `sistema-diseno-vitrina.md`, in Spanish.
 - `patrones.md` — Patrones de componentes reutilizables con esqueletos
   de código: hero, tarjetas, agenda, chat, constructor, ficha, glosario,
   formularios, favoritos, punto de estado, formulario deshabilitado,
-  fuentes citadas.
+  fuentes citadas, revelado por scroll, esqueleto de tarjeta,
+  error de carga humano, historial de sesión, desglose de relevancia.
 - `lecciones.md` — Lo que falló o decepcionó y qué enseñó.
 - `investigacion-kimi-k3.md` — Qué se sabe de cómo diseña Kimi K3 y qué
   toma Dirsi de eso (un método, no un mecanismo).
@@ -54,8 +58,9 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
   (`capturas/README.md`).
 - `verificar.py` — Verificador ejecutable (sin dependencias):
   comprueba la coherencia interna del cuaderno y que los patrones
-  10, 11 y 12 y los tokens del sistema rag-demo se cumplen en la
-  plantilla real del rag-demo (`python3 verificar.py`).
+  10, 11, 12, 13, 14, 15, 16 y 17 y los tokens de los sistemas rag-demo y
+  Block Ethos se cumplen en los artefactos reales (`python3
+  verificar.py`).
 
 ## Origen
 

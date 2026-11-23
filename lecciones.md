@@ -92,3 +92,22 @@ versión vieja.
 Lección: reiniciar el servidor antes de re-verificar cualquier
 cambio de plantilla; si la re-captura sale idéntica, sospechar
 de la caché antes que del arreglo.
+
+## 2026-11-23 — Las citas de código con líneas caducan
+Hecho: el portafolio cita un fragmento de `routes.py` de Block
+Ethos en las líneas 666–680; el código sigue ahí, idéntico, pero
+ahora está en las líneas 724–740 y el enlace apunta a otra función.
+Lección: una cita con líneas es una foto con fecha: al publicar
+un fragmento, citar también la función o el ancla que lo identifica
+y re-verificar el rango en cada pasada. El texto citado puede
+seguir siendo cierto mientras su puntero ya miente.
+
+## 2026-11-23 — Los números de contraste se etiquetan por tema y fondo
+Hecho: el comentario de contraste del portafolio listaba los pares
+del tema oscuro (sobre papel y sobre superficie) sin etiquetarlos;
+leídos como «claro/oscuro», cada cifra parecía del tema contrario.
+La conclusión (todo ≥ 4,5:1) era cierta en ambos temas; las cifras,
+mal atribuidas.
+Lección: cada cifra de contraste lleva su tema y su fondo. Un número
+sin etiqueta es una afirmación a medias, aunque el veredicto sea
+correcto.
