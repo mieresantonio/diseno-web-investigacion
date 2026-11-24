@@ -168,3 +168,41 @@ revisaron a ojo contra su índice (las 6 coinciden) y la franja de
 estado en móvil se comparó píxel a píxel entre antes y después
 (0 píxeles distintos), confirmando la nota honesta de la galería
 sobre el patrón nº 10.
+
+## 2026-11-23 — Sesión de mejora: patrones 18 y 19 (tanda 4)
+
+Dos patrones nuevos destilados de archivos leídos de primera mano:
+el nº 18 (perfil público verificable, de Block Ethos: opt-in,
+mismo 404 para no-existe/no-público/no-estudiante, sin datos
+sensibles) y el nº 19 (sello «en vivo» con fecha en build-time,
+del portafolio: la afirmación lleva su fecha de verificación).
+La lectura dejó un límite honesto del sello: su fecha se escribe
+a mano en cada publicación — `tools/actualizar-datos.py` no la
+cubre, su motor solo reemplaza grupos de dígitos. `verificar.py`
+gana dos comprobaciones de artefacto (18 y 19; 20 en total).
+
+## 2026-11-23 — Índice de decisiones: las 6 de Block Ethos
+
+Se abre `decisiones.md` con las 6 decisiones de arquitectura del
+caso de estudio de Block Ethos, publicado el mismo día: cada una
+con su fecha, las alternativas descartadas y su motivo, con
+enlace a la fuente. Solo una decisión no nombra alternativas en
+el caso (el repositorio único, que venía dado por la plantilla);
+las demás descartan algo explícito: un servidor de base de datos,
+un modelo externo, Redis, PDFs decorativos y puntos sin atar al
+progreso. La regla de crecimiento del README gana su paso 6:
+toda decisión con alternativas y motivo queda registrada.
+
+## 2026-11-23 — Sesión de mejora: patrones 15, 16 y 17
+
+Segunda tanda de destilación del día, mismo método (leer el artefacto,
+no su resumen): tres patrones nuevos — el nº 15 (error de carga humano
+con reintento, del `LoadError` de Block Ethos: la causa en lenguaje
+humano y un botón de reintento, nunca el «Failed to fetch» crudo), el
+nº 16 (historial de sesión solo-DOM, de la interfaz del rag-demo: vive
+en la página y se borra al recargar, con tope de 20 entradas) y el
+nº 17 (desglose de relevancia visible, también del rag-demo: la
+cabecera de cada fuente muestra similitud + bonificación léxica →
+relevancia, para que el orden no parezca un error de ordenación).
+Verificados en los archivos de origen el 23 nov 2026, como indica cada
+patrón en `patrones.md`.

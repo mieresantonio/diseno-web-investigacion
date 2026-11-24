@@ -447,3 +447,118 @@ como todo contenido recuperado (patrón 12). La regla general:
 cuando el orden de una lista no se explica por la cifra que se
 muestra, enseñar el desglose que lo ordena en vez de dejar que
 parezca un error de ordenación.
+
+## 18. Perfil público verificable
+De: Block Ethos, `GET /api/profile/<handle>` y `PUT /profile/me` en
+`src/api/routes.py`, página `/u/<handle>` en
+`src/front/pages/PublicProfile.jsx` (verificado 23 nov 2026).
+```py
+# Dos columnas en users (models.py): handle único elegido por el
+# estudiante y marca de opt-in, False por defecto. El handle es
+# columna aparte del username a propósito: el registro nunca impuso
+# unicidad de username, así que no sirve como identificador público.
+public_handle: Mapped[str] = mapped_column(
+    String(30), unique=True, nullable=True, index=True)
+is_profile_public: Mapped[bool] = mapped_column(
+    Boolean(), default=False, nullable=False)
+```
+```py
+# La lectura pública: el mismo 404 para «no existe», «no es
+# público» y «no es estudiante» — la respuesta no debe decir cuál
+# de las tres es, para no convertir el endpoint en un oráculo.
+@api.route('/profile/<string:handle>', methods=['GET'])
+@rate_limit(max_attempts=30)
+def get_public_profile(handle):
+    user = db.session.execute(
+        db.select(User).filter_by(
+            public_handle=handle.strip().lower())
+    ).scalars().one_or_none()
+    if not user or not user.is_profile_public \
+            or user.role != UserType.student:
+        return jsonify({"error": "Perfil no encontrado"}), 404
+    return jsonify(_perfil_publico_serialize(user)), 200
+```
+```py
+# El serializador público es una lista cerrada: nombre, nivel, XP,
+# antigüedad en mes (YYYY-MM, nunca la fecha exacta) y rutas con su
+# avance y sus certificados. Sin correo, sin id interno, sin notas
+# de quiz, sin rachas.
+return {
+    "handle": user.public_handle,
+    "display_name": user.username or user.public_handle,
+    "level_name": nombre_nivel,
+    "xp": xp,
+    "member_since": user.created_at.strftime("%Y-%m")
+    if user.created_at else None,
+    "paths": rutas,  # cada ruta: avance + certificado (código, fecha)
+    "certificates_count": len(certs),
+}
+```
+```jsx
+// La página no deshace la ambigüedad del 404: el visitante lee que
+// el perfil «puede que no exista o que su dueño lo tenga privado».
+// Cada certificado enlaza a su verificación independiente.
+<h3>Perfil no encontrado</h3>
+<p>No hay ningún perfil público de Block Ethos con el handle
+  @{handle}. Puede que no exista o que su dueño lo tenga privado.</p>
+<Link to={`/verificar/${ruta.certificate.code}`}>
+  {ruta.certificate.code}
+</Link>
+```
+No olvidar: el 404 debe ser idéntico en los tres casos, mismo
+estado y mismo cuerpo: hay un test que compara la respuesta JSON
+de «privado» e «inexistente» y exige que sean iguales
+(`tests/test_perfil_publico.py`). La página tampoco debe filtrar
+el caso: si el backend es ambiguo pero la interfaz dice «este
+usuario lo tiene privado», el oráculo vuelve por la pantalla.
+El opt-in nace en falso: nada se ve hasta que el estudiante lo
+activa, y al desactivarlo el perfil desaparece con el mismo 404.
+Publicar exige handle primero (sin handle, 400); el handle se
+valida (3–30 caracteres, minúsculas, sin palabras reservadas) y
+el duplicado responde 409. El perfil es solo para estudiantes:
+el admin recibe 403 al configurarlo y el endpoint público lo
+trata como 404. La verificación no la afirma la propia página:
+cada certificado enlaza a `/verificar/<código>`, donde
+cualquiera lo comprueba por su cuenta. El rate limit es por IP
+de cliente y exige ProxyFix detrás del proxy; sin él, todos los
+visitantes comparten un cubo. Y cambiar el handle mueve la URL:
+la vieja pasa a 404, así que hay que avisar al estudiante si ya
+la enlazó desde su CV.
+
+## 19. Sello «en vivo» con fecha en build-time
+De: portafolio, sello en `index.html` (2ª tanda, 23 nov 2026;
+verificado en `portfolio/index.html`, 23 nov 2026).
+```html
+<!-- La afirmación lleva su fecha: «verificada el», no «en vivo» a
+     secas. datetime para la máquina, texto legible para la persona;
+     data-dato marca el valor como dato vivo del portafolio. -->
+<p class="live-seal"><span class="live-seal-dot" aria-hidden="true"></span>
+  Demo en línea · verificada el
+  <time datetime="2026-11-23" data-dato="be-en-vivo-fecha">23 nov 2026</time></p>
+```
+```css
+/* Píldora con sombra-como-borde, solo tokens del sistema: sigue al
+   modo oscuro sin una regla extra. El punto es estático, no parpadea. */
+.live-seal{
+  display:inline-flex; align-items:center; gap:8px; margin:16px 0 0;
+  background:var(--paper); box-shadow:inset 0 0 0 1px var(--line);
+  border-radius:999px; padding:6px 14px 6px 10px;
+  font-size:.82rem; font-weight:500; color:var(--muted);
+}
+.live-seal-dot{ width:8px; height:8px; border-radius:50%; background:var(--ok); flex:none; }
+.live-seal time{ font-family:var(--font-mono); font-size:.78rem; color:var(--faint); }
+```
+No olvidar: la fecha ES la afirmación: «verificada el 23 nov
+2026» dice cuándo se comprobó la demo por última vez, no que
+esté en vivo siempre; una fecha vieja es peor que no tener fecha,
+porque demuestra que nadie ha vuelto a comprobarlo. La fecha se
+fija en el momento de publicar (build-time), nunca la calcula el
+navegador: ningún script de la página toca el sello. Al
+actualizarla hay que cambiar juntos el `datetime` y el texto
+visible: si discrepan, la máquina y la persona leen fechas
+distintas. Hoy la fecha se escribe a mano en cada publicación:
+el script `tools/actualizar-datos.py` no la cubre (su motor solo
+reemplaza grupos de dígitos), así que es un paso manual de la
+lista de publicación. El punto es decorativo (`aria-hidden`): el
+texto lleva el significado. Y el sello va junto a la afirmación
+que fecha — dentro de la tarjeta del proyecto, no en el pie.

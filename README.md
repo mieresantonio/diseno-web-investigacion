@@ -21,6 +21,8 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
    tanda por cerrada, correr `python3 verificar.py` (debe quedar en
    verde: coherencia del cuaderno y patrones contra el artefacto
    real).
+6. Si se tomó una decisión con alternativas y motivo, registrarla
+   en `decisiones.md` con su fecha y su fuente.
 
 ## Contenido
 
@@ -40,8 +42,12 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
   de código: hero, tarjetas, agenda, chat, constructor, ficha, glosario,
   formularios, favoritos, punto de estado, formulario deshabilitado,
   fuentes citadas, revelado por scroll, esqueleto de tarjeta,
-  error de carga humano, historial de sesión, desglose de relevancia.
+  error de carga humano, historial de sesión, desglose de relevancia,
+  perfil público verificable, sello «en vivo» con fecha.
 - `lecciones.md` — Lo que falló o decepcionó y qué enseñó.
+- `decisiones.md` — Índice de decisiones de diseño: cada decisión
+  con su fecha, las alternativas descartadas y su motivo, con
+  enlace a la fuente. Empieza con las 6 de Block Ethos.
 - `investigacion-kimi-k3.md` — Qué se sabe de cómo diseña Kimi K3 y qué
   toma Dirsi de eso (un método, no un mecanismo).
 - `criterios-diseno-centeia.md` — Criterios aplicables destilados de
@@ -58,9 +64,9 @@ Cada app que se construye deja aquí su lección. Al terminar una app:
   (`capturas/README.md`).
 - `verificar.py` — Verificador ejecutable (sin dependencias):
   comprueba la coherencia interna del cuaderno y que los patrones
-  10, 11, 12, 13, 14, 15, 16 y 17 y los tokens de los sistemas rag-demo y
-  Block Ethos se cumplen en los artefactos reales (`python3
-  verificar.py`).
+  10, 11, 12, 13, 14, 15, 16, 17, 18 y 19 y los tokens de los
+  sistemas rag-demo y Block Ethos se cumplen en los artefactos
+  reales (`python3 verificar.py`).
 
 ## Origen
 

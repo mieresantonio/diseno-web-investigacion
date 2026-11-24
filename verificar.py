@@ -6,8 +6,8 @@ revisaban a mano en cada tanda, y — lo que lo hace distinto de un
 linter de Markdown — verifica que los patrones documentados se
 cumplen de verdad en los artefactos reales que los originaron:
 la plantilla de la interfaz web del rag-demo, el portafolio y
-Block Ethos. 18 comprobaciones en total: 8 de coherencia interna
-y 10 contra los artefactos.
+Block Ethos. 20 comprobaciones en total: 8 de coherencia interna
+y 12 contra los artefactos.
 
 Uso:
     python3 verificar.py            # todo; las comprobaciones de
@@ -520,6 +520,115 @@ def check_patron_17(plantilla):
     ])
 
 
+def check_patron_18(base):
+    """El patrón 18 (perfil público verificable) se cumple en Block Ethos."""
+    faltan = []
+    rutas = base / "src" / "api" / "routes.py"
+    if not rutas.is_file():
+        faltan.append("falta src/api/routes.py")
+        texto_rutas = ""
+    else:
+        texto_rutas = rutas.read_text(encoding="utf-8")
+    for etiqueta, literal in [
+        ("ruta-publica", "@api.route('/profile/<string:handle>', methods=['GET'])"),
+        ("rate-limit", "@rate_limit(max_attempts=30)"),
+        ("404-unico", 'return jsonify({"error": "Perfil no encontrado"}), 404'),
+        ("solo-estudiante", "or user.role != UserType.student:"),
+        ("handle-normalizado", "public_handle=handle.strip().lower())"),
+        ("antiguedad-mes", '"member_since": user.created_at.strftime("%Y-%m")'),
+        ("403-admin", "El perfil público es solo para estudiantes"),
+        ("409-duplicado", "Ese handle ya está en uso"),
+        ("handle-antes-de-publicar", "Elige primero un handle para tu perfil público"),
+    ]:
+        if literal not in texto_rutas:
+            faltan.append(f"routes.py: {etiqueta}")
+    modelos = base / "src" / "api" / "models.py"
+    if not modelos.is_file():
+        faltan.append("falta src/api/models.py")
+        texto_modelos = ""
+    else:
+        texto_modelos = modelos.read_text(encoding="utf-8")
+    for etiqueta, literal in [
+        ("columna-handle", "public_handle: Mapped[str] = mapped_column("),
+        ("columna-opt-in", "is_profile_public: Mapped[bool] = mapped_column("),
+    ]:
+        if literal not in texto_modelos:
+            faltan.append(f"models.py: {etiqueta}")
+    servicio = base / "src" / "front" / "services" / "profileService.js"
+    if not servicio.is_file():
+        faltan.append("falta profileService.js")
+        texto_servicio = ""
+    else:
+        texto_servicio = servicio.read_text(encoding="utf-8")
+    if "if (resp.status === 404) return null;" not in texto_servicio:
+        faltan.append("profileService.js: 404 a null")
+    pagina = base / "src" / "front" / "pages" / "PublicProfile.jsx"
+    if not pagina.is_file():
+        faltan.append("falta PublicProfile.jsx")
+        texto_pagina = ""
+    else:
+        texto_pagina = pagina.read_text(encoding="utf-8")
+    for etiqueta, literal in [
+        ("404-ambiguo-ui", "no exista o que su dueño lo tenga privado."),
+        ("enlace-verificacion", "/verificar/${ruta.certificate.code}"),
+    ]:
+        if literal not in texto_pagina:
+            faltan.append(f"PublicProfile.jsx: {etiqueta}")
+    rutas_jsx = base / "src" / "front" / "routes.jsx"
+    if not rutas_jsx.is_file():
+        faltan.append("falta routes.jsx")
+        texto_rutas_jsx = ""
+    else:
+        texto_rutas_jsx = rutas_jsx.read_text(encoding="utf-8")
+    if '<Route path="/u/:handle" element={<PublicProfile />} />' not in texto_rutas_jsx:
+        faltan.append("routes.jsx: ruta /u/:handle")
+    if not faltan:
+        registrar("patron-18-artefacto", OK, "15 comprobaciones contra Block Ethos")
+    else:
+        registrar("patron-18-artefacto", FAIL, "; ".join(faltan))
+
+
+def check_patron_19(indice):
+    """El patrón 19 (sello «en vivo» con fecha) se cumple en el portafolio."""
+    texto = indice.read_text(encoding="utf-8")
+    faltan = []
+    for etiqueta, literal in [
+        ("sello-html", '<p class="live-seal">'),
+        ("sello-texto", "Demo en línea · verificada el "),
+        ("punto-decorativo", '<span class="live-seal-dot" aria-hidden="true"></span>'),
+    ]:
+        if literal not in texto:
+            faltan.append(etiqueta)
+    # La fecha es una forma, no un valor fijo: el sello se re-fecha en
+    # cada publicación, así que el chequeo exige el elemento <time>
+    # con datetime ISO y el gancho data-dato, no una fecha concreta.
+    if not re.search(
+            r'<time datetime="\d{4}-\d{2}-\d{2}" '
+            r'data-dato="be-en-vivo-fecha">[^<]+</time>', texto):
+        faltan.append("time-con-fecha")
+    for etiqueta, selector, declaraciones in [
+        ("live-seal", ".live-seal",
+         ["display:inline-flex", "border-radius:999px",
+          "box-shadow:inset 0 0 0 1px var(--line)"]),
+        ("live-seal-dot", ".live-seal-dot",
+         ["width:8px", "height:8px", "border-radius:50%",
+          "background:var(--ok)"]),
+        ("live-seal-time", ".live-seal time",
+         ["font-family:var(--font-mono)", "color:var(--faint)"]),
+    ]:
+        bloque = bloque_css(texto, selector)
+        if bloque is None:
+            faltan.append(f"{etiqueta} (sin regla {selector})")
+        else:
+            for d in declaraciones:
+                if d not in bloque:
+                    faltan.append(f"{etiqueta}: falta «{d}»")
+    if not faltan:
+        registrar("patron-19-artefacto", OK, f"13 comprobaciones contra {indice}")
+    else:
+        registrar("patron-19-artefacto", FAIL, "; ".join(faltan))
+
+
 def main():
     check_patrones_readme()
     check_contenido_readme()
@@ -544,19 +653,22 @@ def main():
             fn(plantilla)
     indice = localizar_portfolio()
     if indice is None:
-        registrar("patron-13-artefacto", SKIP,
-                  "portafolio no encontrado (define PORTFOLIO_DIR)")
+        for nombre in ["patron-13-artefacto", "patron-19-artefacto"]:
+            registrar(nombre, SKIP,
+                      "portafolio no encontrado (define PORTFOLIO_DIR)")
     else:
         check_patron_13(indice)
+        check_patron_19(indice)
     base_be = localizar_block_ethos()
     if base_be is None:
         for nombre in ["sistema-block-ethos-tokens", "patron-14-artefacto",
-                       "patron-15-artefacto"]:
+                       "patron-15-artefacto", "patron-18-artefacto"]:
             registrar(nombre, SKIP, "Block Ethos no encontrado (define BLOCK_ETHOS_DIR)")
     else:
         check_sistema_block_ethos_tokens(base_be / "src" / "front" / "index.css")
         check_patron_14(base_be)
         check_patron_15(base_be)
+        check_patron_18(base_be)
     n_ok = sum(1 for _, e, _ in resultados if e == OK)
     n_fail = sum(1 for _, e, _ in resultados if e == FAIL)
     n_skip = sum(1 for _, e, _ in resultados if e == SKIP)
